@@ -110,7 +110,7 @@ int findPedidoById(ePedido lista[], int len) {
 	int idIngresado;
 	utn_getNumero(&idIngresado,
 			"\nIngrese el número de ID del pedido que desea buscar\n",
-			"\nError, ingrese un ID válido, debe ser entre 1 y 1000\n", 1, 1000,
+			"\nError, ingrese un ID válido, debe ser entre 1 y 1000\n", 1, 8000,
 			2);
 	for (i = 0; i < len; i++) {
 		if (lista[i].isEmpty == 0 && lista[i].idPedido == idIngresado) {
@@ -125,13 +125,12 @@ int findPedidoById(ePedido lista[], int len) {
 	return retorno;
 }
 
-ePedido addTiposPlasticos(ePedido lista[], int len, int id) {
+ePedido addTiposPlasticos(ePedido lista[], int len) {
 	ePedido pedido;
 	float cantHDPE;
 	float cantLDPE;
 	float cantPP;
 
-	pedido.idCliente = id;
 
 	if(utn_getNumeroFlotante(&cantHDPE, "\nIngrese los kilos de HDPE del pedido\n",
 			"\nError, ingrese un valor válido\n", 1,
@@ -182,18 +181,18 @@ int altaPlasticos(ePedido lista[], int len, int id) {
 	i = BuscarPrimerEspacioLibrePedidos(lista, len);
 	if (i != -1) {
 		if (lista != NULL && len > 0 && i != -1) {
-			lista[i] = addTiposPlasticos(lista, len, id);
+			lista[i] = addTiposPlasticos(lista, len);
 		}
 	}
 	return i;
 }
 
 void print1Pedido(ePedido pedido) {
-	printf("%2d %12d %20s %20f %20f %20f %12f\t", pedido.idPedido,
+	printf("%8d %12d %20s %20f %20f %20f %12f\t", pedido.idPedido,
 			pedido.idCliente, pedido.estadoPedido,
 			pedido.kilosTotalesPedido, pedido.cantidadHDPE, pedido.cantidadLDPE, pedido.cantidadPP);
 	printf(
-			"\n___________________________________________________________________________________\n");
+			"\n______________________________________________________________________________________________________\n");
 }
 
 int printPedidos(ePedido lista[], int len) {

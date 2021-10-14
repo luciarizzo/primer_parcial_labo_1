@@ -61,7 +61,7 @@ eClientes addCliente(eClientes lista[], int len, int id) {
 	char nombreEmpresa[100];
 	char direccion[100];
 	char localidad[100];
-	int cuit;
+	char cuit[20];
 	eClientes cliente;
 	/*el ID es incremental. BORRAR ESTO.
 	do{
@@ -83,11 +83,9 @@ eClientes addCliente(eClientes lista[], int len, int id) {
 		strcpy(cliente.localidadCliente, localidad);
 
 	//usar funcion de getCuit.
-	utn_getNumero(&cuit, "\nIngrese el número de cuit del cliente\n",
-			"\nError, ingrese un número de cuit del cliente\n", 1,
-			5, 2);
-	cliente.cuitCliente = cuit;
-
+	utn_getCUIT(cuit, "\nIngrese el número de cuit del cliente\n", "\nError, ingrese un número de cuit del cliente\n",
+			2);
+	strcpy(cliente.cuitCliente, cuit);
 
 	cliente.idCliente = id;
 	cliente.isEmpty = 0; //ocupado.
@@ -206,60 +204,6 @@ int modifiedLocalidad(eClientes lista[], int len) {
 	}
 	return retorno;
 }
-/*
-int modifiedEmployeeSalary(Employee lista[], int len) {
-	int i;
-	int empleadoAModificar;
-	int retorno;
-	retorno = 0;
-	float salary;
-	empleadoAModificar = findEmployeeById(lista, len);
-
-	for (i = 0; i < len; i++) {
-		if (lista[i].isEmpty == 0
-				&& lista[i].idEmployee == empleadoAModificar) {
-			printf("\nEstá a punto de modificar el empleado con nombre: %s\n",
-					lista[i].nameEmployee);
-			utn_getNumeroFlotante(&salary,
-					"\nIngrese el salario del empleado\n",
-					"\nError. Ingrese un salario válido\n", 1, 100000, 2);
-			lista[i].salaryEmployee = salary;
-			printf("\nEl salario se ha modificado correctamente por: %f\n",
-					lista[i].salaryEmployee);
-			retorno = 1;
-			break;
-		}
-	}
-	return retorno;
-}
-
-int modifiedEmployeeSectorId(Employee lista[], int len) {
-	int i;
-	int empleadoAModificar;
-	int retorno;
-	retorno = 0;
-	int sectorId;
-	empleadoAModificar = findEmployeeById(lista, len);
-
-	for (i = 0; i < len; i++) {
-		if (lista[i].isEmpty == 0
-				&& lista[i].idEmployee == empleadoAModificar) {
-			printf("\nEstá a punto de modificar el empleado con nombre: %s\n",
-					lista[i].nameEmployee);
-			utn_getNumero(&sectorId,
-					"\nIngrese el nuevo número de sector ID del empleado\n",
-					"\nError, ingrese un sector ID válido, debe ser entre 1 y 5\n",
-					1, 5, 2);
-			lista[i].sectorIdEmployee = sectorId;
-			printf("\nEl sector se ha modificado correctamente por %d\n",
-					lista[i].sectorIdEmployee);
-			retorno = 1;
-			break;
-		}
-	}
-	return retorno;
-}
-*/
 
 //ORDENAMIENTO
 /*
@@ -285,7 +229,7 @@ void sortEmployeesbyLastNameOrSector(Employee lista[], int len) {
 }
 */
 void print1Cliente(eClientes unCliente) {
-	printf("%2d %12s %20s %20s %12d \t", unCliente.idCliente,
+	printf("%2d %12s %20s %20s %12s \t", unCliente.idCliente,
 			unCliente.nombreCliente, unCliente.direccionCliente,
 			unCliente.localidadCliente, unCliente.cuitCliente);
 	printf(

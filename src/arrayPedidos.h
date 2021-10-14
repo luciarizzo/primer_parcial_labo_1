@@ -25,7 +25,7 @@ int BuscarPrimerEspacioLibrePedidos(ePedido lista[], int len);
 ePedido addPedido(ePedido lista[], int len, int id);
 int altaPedido(ePedido lista[], int len, int id);
 int findPedidoById(ePedido lista[], int len);
-ePedido addTiposPlasticos(ePedido lista[], int len, int id);
+ePedido addTiposPlasticos(ePedido lista[], int len);
 int altaPlasticos(ePedido lista[], int len, int id);
 void print1Pedido(ePedido pedido);
 int printPedidos(ePedido lista[], int len);

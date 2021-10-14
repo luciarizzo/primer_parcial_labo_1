@@ -13,7 +13,7 @@ typedef struct{
 	char nombreCliente[100];
 	char direccionCliente[100];
 	char localidadCliente[100];
-	int cuitCliente;
+	char cuitCliente[20];
 	int isEmpty;//si es 1, la estructura esta libre par anueva carga, si es 0 esta ocupada
 }eClientes;
 

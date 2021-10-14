@@ -88,37 +88,40 @@ void mostrarMenu(char *mensaje, int opcionSalir) {
 
 					//buscarId
 					idClienteParaPedido = findClienteById(arrayClientes,
-							CANTCLIENTES);
+					CANTCLIENTES);
 					//
 
 					initPedido(arrayPedidos, CANTPEDIDOS);
-					if(altaPedido(arrayPedidos, CANTPEDIDOS, idClienteParaPedido) != -1)
-					{
+					if (idClienteParaPedido != -1
+							&& altaPedido(arrayPedidos, CANTPEDIDOS,
+									idClienteParaPedido) != -1) {
 						flagHuboCargaPedido++;
 						idPedido++;
-						printf("\n El nuevo ID de pedido para el cliente con ID %d es: %d.\n",
-						idClienteParaPedido, idPedido);
+						printf(
+								"\n El nuevo ID de pedido para el cliente con ID %d es: %d.\n",
+								idClienteParaPedido, idPedido);
 					}
 
 					break;
 				case 5: //procesar residuos
-					if(flagHuboCargaPedido > 0){
+					if (flagHuboCargaPedido > 0) {
 						printPedidos(arrayPedidos, CANTPEDIDOS);
 						//buscarId
-						idPedidoABuscar = findPedidoById(arrayPedidos, CANTPEDIDOS);
-						//ingresar kg de cada plastico y pasa a completado
-						if (altaPlasticos(arrayPedidos, CANTPEDIDOS, idPedidoABuscar)
+						idPedidoABuscar = findPedidoById(arrayPedidos,
+						CANTPEDIDOS);
+						if (altaPlasticos(arrayPedidos, CANTPEDIDOS, idPedido)
 								!= -1) {
 							flagPedidoCompleto++;
 						} else {
 							printf("\nHubo un error en la carga.\n");
 						}
+
+						//ingresar kg de cada plastico y pasa a completado
+
 					} else {
-						printf("\nDebe cargar un pedido para ingresar a esta opción del menú\n");
+						printf(
+								"\nDebe cargar un pedido para ingresar a esta opción del menú\n");
 					}
-
-
-					//pasar a completado.
 
 					break;
 				case 6:
