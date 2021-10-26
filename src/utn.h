@@ -150,6 +150,8 @@ int utn_getCaracterSexo(char *pResultado, char *mensaje, char *mensajeError,
 
 int utn_getCaracterSiNo(void);
 
+int utn_getCaracterSiNoAgregar(void);
+
 int utn_getCaracter(char *pResultado, char *mensaje, char *mensajeError,
 		char string[][20], int cantidadArray, int reintentos);
 

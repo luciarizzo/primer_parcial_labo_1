@@ -59,6 +59,7 @@ int factorial(int *n) {
 int myGets(char *cadena, int longitud) {
 	int retorno;
 	retorno = -1;
+
 	if (cadena != NULL && longitud > 0
 			&& fgets(cadena, longitud, stdin) == cadena) {
 		fflush(stdin); // LINUX-> __fpurge o WIN-> fflush o MAC-> fpurge
@@ -67,6 +68,7 @@ int myGets(char *cadena, int longitud) {
 		}
 		retorno = 0;
 	}
+
 	return retorno;
 }
 /**
@@ -241,6 +243,7 @@ int utn_getNumero(int *pResultado, char *mensaje, char *mensajeError,
 	int bufferInterno;
 	if (pResultado != NULL && mensaje != NULL && mensajeError != NULL
 			&& minimo <= maximo && reintentos > 0) {
+
 		do {
 			printf("%s", mensaje);
 			if (getInt(&bufferInterno) == 0 && bufferInterno >= minimo
@@ -253,6 +256,7 @@ int utn_getNumero(int *pResultado, char *mensaje, char *mensajeError,
 				reintentos--;
 			}
 		} while (reintentos >= 0);
+
 	}
 	return retorno;
 }
@@ -649,7 +653,29 @@ int utn_getCaracterSiNo(void)
 	int retorno = -1;
 	char c;
 
-	getChar("Ingrese Si 's' o No 'n'", &c);
+	getChar("\nIngrese Si 's' o No 'n'", &c);
+	fflush(stdin);
+
+	while(c!='s' && c!='n')
+	{
+		puts("ERROR. OPCION NO VALIDA");
+		getChar("Ingrese Si 's' o No 'n'", &c);
+		fflush(stdin);
+
+	}
+		if(c=='s')
+		{
+			retorno = 0;
+		}
+	return retorno;
+}
+
+int utn_getCaracterSiNoAgregar(void)
+{
+	int retorno = -1;
+	char c;
+
+	getChar("\n¿Quiere agregar otro? Ingrese Si 's' o No 'n'", &c);
 	fflush(stdin);
 
 	while(c!='s' && c!='n')

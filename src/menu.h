@@ -8,7 +8,7 @@
 #ifndef MENU_H_
 #define MENU_H_
 
-void mostrarMenu(char *mensaje, int opcionSalir);
+void mostrarMenu(char *mensaje);
 
 
 #endif /* MENU_H_ */
