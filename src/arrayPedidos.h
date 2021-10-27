@@ -24,11 +24,16 @@ int BuscarPrimerEspacioLibrePedidos(ePedido lista[], int len);
 //int BuscarId(ePedido lista[], int len, int idPedido);
 ePedido addPedido(ePedido lista[], int len, int idCliente, int* idPedido);
 int altaPedido(ePedido lista[], int len, int idCliente, int* idPedido);
-int findPedidoById(ePedido lista[], int len);
-ePedido addTiposPlasticos(ePedido lista[], int len);
-int altaPlasticos(ePedido lista[], int len, int id);
+int findPedidoById(ePedido lista[], int len, int* idCliente);
+ePedido addTiposPlasticos(ePedido lista[], int len, int idPedido);
+int altaPlasticos(ePedido lista[], int len, int idPedido, int idCliente);
 void print1Pedido(ePedido pedido);
 int printPedidos(ePedido lista[], int len);
+int contarPedidos(ePedido lista[], int len, int idCliente, int* cantPedidos);
 int contarPedidosPendientes(ePedido lista[], int len, int idCliente, int* cantPendientes);
+int contarPedidosCompletados(ePedido lista[], int len, int idCliente,
+		int *cantCompletados);
+int contarPlasticoTipoPP(ePedido lista[], int len, int *cantPP);
+int findPedidosPorIdRetornarIndice(ePedido lista[], int len, int idPedido);
 
 #endif /* ARRAYPEDIDOS_H_ */

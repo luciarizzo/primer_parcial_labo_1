@@ -12,17 +12,22 @@
 #include "utn.h"
 #include "arrayClientes.h"
 #include "arrayPedidos.h"
+#include "arrayLocalidad.h"
 #include "informes.h"
 #define CANTCLIENTES 100
 #define CANTPEDIDOS 1000
+#define CANTLOCALIDADES 2
 
 void mostrarMenu(char *mensaje) {
 	eClientes arrayClientes[CANTCLIENTES] = { { 100, "LAVA", "Pineiro 358",
-			"Lanus", "201234567", 1 }, { 101, "CODERS", "Manuel OCampo 1269",
-			"Temperley", "245125470", 1 } };
+			1, "201234567", 1 }, { 101, "CODERS", "Manuel OCampo 1269",
+			2, "245125470", 1 } };
 
 	ePedido arrayPedidos[CANTPEDIDOS];
-
+	eLocalidad arrayLocalidades[CANTLOCALIDADES] = {
+			{1, "Lanus", 1},
+			{2, "Temperley", 1}
+	};
 	int idPedido = CANTPEDIDOS;
 	int idCliente = CANTCLIENTES;
 	int idPedidoABuscar;
@@ -35,6 +40,8 @@ void mostrarMenu(char *mensaje) {
 	int flagHuboCargaPedido = -1; // Se cambia a 0 cuando hubo carga de pedido.
 	int flagPedidoCompleto = -1;
 	initPedido(arrayPedidos, CANTPEDIDOS);
+	initLocalidad(arrayLocalidades, CANTLOCALIDADES);
+	//int indicePedido;
 
 	if (mensaje != NULL) {
 		do {
@@ -59,6 +66,7 @@ void mostrarMenu(char *mensaje) {
 						altaCliente(arrayClientes, CANTCLIENTES, idCliente);
 						idCliente++;
 					}
+					//¿lo puedo borrar de acá? !!!!!!!!!!!!!!!!!!!!
 					fflush(stdin);
 					break;
 
@@ -72,13 +80,22 @@ void mostrarMenu(char *mensaje) {
 								"\nElija qué desea modificar: \n1: Dirección \n2: Localidad\n",
 								"\n La opción ingresada no está dentro del rango solicitado\n",
 								1, 2, 3);
+
 						switch (opcionSubMenuModificar) {
 						case 1:
-							modifiedDireccion(arrayClientes, CANTCLIENTES);
+							utn_getNumero(&idCliente,
+									"\nIngrese el número del cliente que desea buscar entre 100 y 200\n",
+									"\nError, ingrese un ID válido, debe ser entre 100 y 200\n",
+									100, 200, 2);
+							modifiedDireccion(arrayClientes, CANTCLIENTES, idCliente);
 							break;
 						case 2:
+							utn_getNumero(&idCliente,
+									"\nIngrese el número del cliente que desea buscar entre 100 y 200\n",
+									"\nError, ingrese un ID válido, debe ser entre 100 y 200\n",
+									100, 200, 2);
 							modifiedLocalidad(arrayClientes,
-							CANTCLIENTES);
+							CANTCLIENTES, idCliente);
 							break;
 						}
 					}
@@ -89,26 +106,28 @@ void mostrarMenu(char *mensaje) {
 						printf(
 								"\nError. Para ingresar a esta opción debe cargar un cliente primero.\n");
 					} else {
-						removeCliente(arrayClientes, CANTCLIENTES);
+						utn_getNumero(&idCliente,
+								"\nIngrese el número del cliente que desea buscar entre 100 y 200\n",
+								"\nError, ingrese un ID válido, debe ser entre 100 y 200\n",
+								100, 200, 2);
+						removeCliente(arrayClientes, CANTCLIENTES, idCliente);
 					}
 					break;
 
 				case 4: //crear pedido
-					//imprimirPorPantalla
 					if (flagHuboCargaCliente == -1) {
 						printf(
 								"\nError. Para ingresar a esta opción debe cargar un cliente primero.\n");
 					} else {
-						if (printClientes(arrayClientes, CANTCLIENTES) == 0) {
-							//buscarId
-							idClienteParaPedido = findClienteById(arrayClientes,
-							CANTCLIENTES);
-							if (idClienteParaPedido != -1
-									&& altaPedido(arrayPedidos, CANTPEDIDOS,
-											idClienteParaPedido, &idPedido)
-											!= -1) {
-								flagHuboCargaPedido = 0;
-							}
+						printClientes(arrayClientes, CANTCLIENTES);
+						utn_getNumero(&idClienteParaPedido,
+								"\nIngrese el número de ID del cliente que desea buscar entre 100 y 200\n",
+								"\nError, ingrese un ID válido, debe ser entre 100 y 200\n",
+								100, 200, 2);
+						if (altaPedido(arrayPedidos, CANTPEDIDOS,
+										idClienteParaPedido, &idPedido) != -1) {
+							flagHuboCargaPedido = 0;
+
 						}
 					}
 					break;
@@ -121,10 +140,11 @@ void mostrarMenu(char *mensaje) {
 						printPedidos(arrayPedidos, CANTPEDIDOS);
 						//buscarId
 						idPedidoABuscar = findPedidoById(arrayPedidos,
-						CANTPEDIDOS);
+						CANTPEDIDOS, &idCliente);
+						//indicePedido = findPedidosPorIdRetornarIndice(arrayPedidos, CANTPEDIDOS, idPedidoABuscar);
 						//ingresar kg de cada plastico y pasa a completado
-						if (altaPlasticos(arrayPedidos, CANTPEDIDOS, idPedido)
-								!= -1) {
+						if (altaPlasticos(arrayPedidos, CANTPEDIDOS,
+								idPedidoABuscar, idCliente) != -1) {
 							flagPedidoCompleto = 0;
 							printf(
 									"Se cargaron los kg de plasticos correctamente");
@@ -137,7 +157,6 @@ void mostrarMenu(char *mensaje) {
 								"\nDebe cargar un pedido para ingresar a esta opción del menú\n");
 					}
 					break;
-
 				case 6: // imprimir clientes
 					if (flagHuboCargaPedido == -1) {
 						printf(
@@ -174,20 +193,50 @@ void mostrarMenu(char *mensaje) {
 						printf(
 								"\nError. Para ingresar a esta opción debe cargar un pedido primero.\n");
 					} else {
-						informarPendientesPorLocalidad(arrayClientes, CANTCLIENTES, arrayPedidos, CANTPEDIDOS);
+						informarPendientesPorLocalidad(arrayClientes,
+						CANTCLIENTES, arrayPedidos, CANTPEDIDOS);
 					}
 					break;
 				case 10:
 					//promedio
+					if (flagHuboCargaPedido == -1) {
+						printf(
+								"\nError. Para ingresar a esta opción debe cargar un pedido primero.\n");
+					} else {
+						informarPromedioPPxCliente(arrayClientes, CANTCLIENTES,
+								arrayPedidos, CANTPEDIDOS);
+					}
 					break;
 				case 11:
 					//clientes con mas pedidos pendientes
+					if (flagHuboCargaPedido == -1) {
+						printf(
+								"\nError. Para ingresar a esta opción debe cargar un pedido primero.\n");
+					} else {
+						informarClientesConMasPendientes(arrayClientes,
+						CANTCLIENTES, arrayPedidos, CANTPEDIDOS);
+					}
 					break;
 				case 12:
 					//clientes con mas pedidos completados
+					if (flagHuboCargaPedido == -1) {
+						printf(
+								"\nError. Para ingresar a esta opción debe cargar un pedido primero.\n");
+					} else {
+						informarClientesConMasCompletados(arrayClientes,
+								CANTCLIENTES, arrayPedidos, CANTPEDIDOS);
+					}
 					break;
+
 				case 13:
 					//clientes con mas pedidos
+					if (flagHuboCargaPedido == -1) {
+						printf(
+								"\nError. Para ingresar a esta opción debe cargar un pedido primero.\n");
+					} else {
+						informarClientesConMasPedidos(arrayClientes,
+								CANTCLIENTES, arrayPedidos, CANTPEDIDOS);
+					}
 					break;
 				}
 			} else {

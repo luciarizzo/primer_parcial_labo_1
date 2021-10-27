@@ -10,6 +10,7 @@
 #include "utn.h"
 #include "arrayClientes.h"
 #include "arrayPedidos.h"
+#include "arrayLocalidad.h"
 
 void printClientesConCantidadPendientes(eClientes listaCliente[],
 		int lenClientes, ePedido listaPedidos[], int lenPedido) {
@@ -99,21 +100,114 @@ void informarPedidosProcesados(eClientes listaCliente[], int lenClientes,
 }
 
 void informarPendientesPorLocalidad(eClientes listaCliente[], int lenClientes,
-		ePedido listaPedidos[], int lenPedidos) {
+		ePedido listaPedidos[], int lenPedidos, eLocalidad listaLocalidades, int lenLocalidades) {
 	int i;
-	char localidad[100];
+	int idLocalidad;
 	int cantidadPedidosPendientes;
 	if (listaCliente != NULL && lenClientes > 0 && listaPedidos != NULL
 			&& lenPedidos > 0) {
-		if (utn_getString(localidad, "Ingrese el nombre de la localidad",
-				"Error, ingrese un nombre válido", 2) == 0) {
+		if (utn_getNumero(&idLocalidad, "Ingrese el ID de la localidad",
+				"Error, ingrese un ID válido", 1, 5, 2) == 0) {
 			for (i = 0; i < lenClientes; i++) {
-				if ((stricmp(listaCliente[i].localidadCliente, localidad) == 0) && listaCliente[i].isEmpty == 1){
-					contarPedidosPendientes(listaPedidos, lenPedidos, listaCliente[i].idCliente, &cantidadPedidosPendientes);
-					printf("\nPara la localidad %s hay %d pedidos pendientes\n", localidad, cantidadPedidosPendientes);
-					}
+				if(listaCliente[i].isEmpty == 1 && listaCliente[i].idLocalidad == idLocalidad){
+					contarPedidosPendientes(listaPedidos, lenPedidos,
+												listaCliente[i].idCliente,
+												&cantidadPedidosPendientes);
 				}
+				}
+			printf("\nPara la localidad con ID %d hay %d pedidos pendientes\n",
+										idLocalidad, cantidadPedidosPendientes);
 			}
 		}
+	}
 
+void informarPromedioPPxCliente(eClientes listaCliente[], int lenClientes,
+		ePedido listaPedidos[], int lenPedidos) {
+	int cantidadPP;
+	int cantidadClientes;
+	int promedio;
+	//contadorClientes
+	//contadorPP
+	contarPlasticoTipoPP(listaPedidos, lenPedidos, &cantidadPP);
+	contarClientes(listaCliente, lenClientes, &cantidadClientes);
+	promedio = cantidadPP / cantidadClientes;
+	printf("\nEl promedio de polipropileno reciclado por cliente es %d\n",
+			promedio);
+}
+
+void informarClientesConMasPendientes(eClientes listaCliente[], int lenClientes,
+		ePedido listaPedidos[], int lenPedidos) {
+	int i;
+	int maximoCliente;
+	int flag;
+	flag = -1;
+	int contadorPendientes = 0;
+	int idClienteConMaximoPendientes;
+
+	for (i = 0; i < lenClientes; i++) {
+		if (listaCliente[i].isEmpty == 1) {
+			contarPedidosPendientes(listaPedidos, lenPedidos, listaCliente[i].idCliente,
+					&contadorPendientes);
+			if(flag == -1 || contadorPendientes > maximoCliente){
+				flag = 0;
+				maximoCliente = contadorPendientes;
+				idClienteConMaximoPendientes = listaCliente[i].idCliente;
+			} else {
+				printf("\nError, no se puede contar el cliente con más pedidos pendientes.\n");
+			}
+
+		}
+	}
+	printf("El cliente con más pedidos pendientes es el cliente con ID: %d", idClienteConMaximoPendientes);
+}
+
+void informarClientesConMasCompletados(eClientes listaCliente[], int lenClientes,
+		ePedido listaPedidos[], int lenPedidos) {
+	int i;
+	int maximoCliente;
+	int flag;
+	flag = -1;
+	int contadorCompletados = 0;
+	int idClienteConMaximoCompletados;
+
+	for (i = 0; i < lenClientes; i++) {
+		if (listaCliente[i].isEmpty == 1) {
+			contarPedidosCompletados(listaPedidos, lenPedidos, listaCliente[i].idCliente,
+					&contadorCompletados);
+			if(flag == -1 || contadorCompletados > maximoCliente){
+				flag = 0;
+				maximoCliente = contadorCompletados;
+				idClienteConMaximoCompletados = listaCliente[i].idCliente;
+			} else {
+				printf("\nError, no se puede contar el cliente con más pedidos completados.\n");
+			}
+		}
+	}
+	printf("El cliente con más pedidos completados es el cliente con ID: %d", idClienteConMaximoCompletados);
+}
+
+void informarClientesConMasPedidos(eClientes listaCliente[], int lenClientes,
+		ePedido listaPedidos[], int lenPedidos) {
+	int i;
+	int maximoCliente;
+	int flag;
+	flag = -1;
+	int contadorPedidos = 0;
+	int idClienteConMasPedidos;
+
+	for (i = 0; i < lenClientes; i++) {
+		if (listaCliente[i].isEmpty == 1) {
+			contarPedidos(listaPedidos, lenPedidos, listaCliente[i].idCliente,
+					&contadorPedidos);
+			if(flag == -1 || contadorPedidos > maximoCliente){
+				flag = 0;
+				maximoCliente = contadorPedidos;
+				idClienteConMasPedidos = listaCliente[i].idCliente;
+			} else {
+				printf("\nError, no se puede contar el cliente con más pedidos.\n");
+			}
+
+		}
+	}
+	printf("El cliente con más pedidos completados es el cliente con ID: %d", idClienteConMasPedidos);
 }
