@@ -68,33 +68,33 @@ eClientes addCliente(eClientes listaClientes[], int lenClientes, int id) {
 	 2);
 	 }while(BuscarId(lista, len, id) != -1);
 	 */
+	if (listaClientes != NULL && lenClientes > 0) {
+		utn_getString(nombreEmpresa,
+				"\nIngrese el nombre de la Empresa del cliente\n",
+				"\nError, ingrese un nombre válido\n", 2);
+		strcpy(cliente.nombreCliente, nombreEmpresa);
 
-	utn_getString(nombreEmpresa,
-			"\nIngrese el nombre de la Empresa del cliente\n",
-			"\nError, ingrese un nombre válido\n", 2);
-	strcpy(cliente.nombreCliente, nombreEmpresa);
+		utn_getString(direccion, "\nIngrese la dirección del cliente\n",
+				"\nError, ingrese una dirección válida\n", 2);
+		strcpy(cliente.direccionCliente, direccion);
 
-	utn_getString(direccion, "\nIngrese la dirección del cliente\n",
-			"\nError, ingrese una dirección válida\n", 2);
-	strcpy(cliente.direccionCliente, direccion);
+		/*utn_getString(localidad, "\n Ingrese la localidad del cliente\n",
+				"\nError, ingrese una localidad válida\n", 2);
+		strcpy(cliente.localidadCliente, localidad);*/
 
-	/*utn_getString(localidad, "\n Ingrese la localidad del cliente\n",
-			"\nError, ingrese una localidad válida\n", 2);
-	strcpy(cliente.localidadCliente, localidad);*/
+		utn_getNumero(&idLocalidad, "\nIngrese el numero de ID de la localidad correspondiente\n", "\nError, ingrese el ID nuevamente\n",
+				1, 5, 2);
+		cliente.idLocalidad = idLocalidad;
 
-	utn_getNumero(&idLocalidad, "\nIngrese el numero de ID de la localidad correspondiente\n", "\nError, ingrese el ID nuevamente\n",
-			1, 5, 2);
-	cliente.idLocalidad = idLocalidad;
+		//usar funcion de getCuit.
+		utn_getCUIT(cuit, "\nIngrese el número de cuit del cliente\n",
+				"\nError, ingrese un número de cuit del cliente\n", 2);
+		strcpy(cliente.cuitCliente, cuit);
 
-	//usar funcion de getCuit.
-	utn_getCUIT(cuit, "\nIngrese el número de cuit del cliente\n",
-			"\nError, ingrese un número de cuit del cliente\n", 2);
-	strcpy(cliente.cuitCliente, cuit);
-
-	cliente.idCliente = id;
-	cliente.isEmpty = 1; //ocupado.
-	printf("\n Finalizó la carga del nuevo cliente.\n");
-
+		cliente.idCliente = id;
+		cliente.isEmpty = 1; //ocupado.
+		printf("\n Finalizó la carga del nuevo cliente.\n");
+	}
 	return cliente;
 }
 

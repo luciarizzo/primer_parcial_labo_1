@@ -183,8 +183,10 @@ void mostrarMenu(char *mensaje) {
 						printf(
 								"\nError. Para ingresar a esta opción debe cargar un pedido primero.\n");
 					} else {
-						informarPedidosProcesados(arrayClientes, CANTCLIENTES,
-								arrayPedidos, CANTPEDIDOS);
+						if(informarPedidosProcesados(arrayClientes, CANTCLIENTES,
+								arrayPedidos, CANTPEDIDOS) == -1){
+							printf("\nError. No se puede informar los pedidos procesados\n");
+						}
 					}
 					break;
 				case 9:
@@ -213,8 +215,10 @@ void mostrarMenu(char *mensaje) {
 						printf(
 								"\nError. Para ingresar a esta opción debe cargar un pedido primero.\n");
 					} else {
-						informarClientesConMasPendientes(arrayClientes,
-						CANTCLIENTES, arrayPedidos, CANTPEDIDOS);
+						if(informarClientesConMasPendientes(arrayClientes, CANTCLIENTES, arrayPedidos, CANTPEDIDOS) == -1)
+						{
+							printf("\nError. No se puede informar los clientes con más pedidos pendientes\n");
+						}
 					}
 					break;
 				case 12:
@@ -223,8 +227,10 @@ void mostrarMenu(char *mensaje) {
 						printf(
 								"\nError. Para ingresar a esta opción debe cargar un pedido primero.\n");
 					} else {
-						informarClientesConMasCompletados(arrayClientes,
-								CANTCLIENTES, arrayPedidos, CANTPEDIDOS);
+						if(informarClientesConMasCompletados(arrayClientes,
+								CANTCLIENTES, arrayPedidos, CANTPEDIDOS) == -1){
+							printf("\nError. No se puede informar los clientes con más pedidos completados\n");
+						}
 					}
 					break;
 
@@ -234,8 +240,10 @@ void mostrarMenu(char *mensaje) {
 						printf(
 								"\nError. Para ingresar a esta opción debe cargar un pedido primero.\n");
 					} else {
-						informarClientesConMasPedidos(arrayClientes,
-								CANTCLIENTES, arrayPedidos, CANTPEDIDOS);
+						if(informarClientesConMasPedidos(arrayClientes,
+								CANTCLIENTES, arrayPedidos, CANTPEDIDOS) == -1){
+							printf("\nError. No se puede informar los clientes con más pedidos\n");
+						}
 					}
 					break;
 				}

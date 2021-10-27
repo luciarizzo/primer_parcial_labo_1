@@ -61,34 +61,35 @@ ePedido addPedido(ePedido lista[], int len, int idCliente, int *idPedido) {
 	float kilosTotales;
 	int flag;
 	flag = -1;
-//validando lista len blabla
-	pedido.idCliente = idCliente;
+	if (lista != NULL && len > 0) {
+		pedido.idCliente = idCliente;
+		if (lista != NULL && len > 0) {
+			if (utn_getNumeroFlotante(&kilosTotales,
+					"\nIngrese los kilos totales de plástico del pedido\n",
+					"\nError, ingrese un valor válido\n", 1, 1000, 2) == 0) {
+				pedido.kilosTotalesPedido = kilosTotales;
+				pedido.cantidadHDPE = 0;
+				pedido.cantidadLDPE = 0;
+				pedido.cantidadPP = 0;
+				flag = 0;
 
-	if (utn_getNumeroFlotante(&kilosTotales,
-			"\nIngrese los kilos totales de plástico del pedido\n",
-			"\nError, ingrese un valor válido\n", 1, 1000, 2) == 0) {
-		pedido.kilosTotalesPedido = kilosTotales;
-		pedido.cantidadHDPE = 0;
-		pedido.cantidadLDPE = 0;
-		pedido.cantidadPP = 0;
-		flag = 0;
+			} else {
+				printf("\nError, no se pudo ingresar los kilos totales.\n");
+			}
 
-	} else {
-		printf("\nError, no se pudo ingresar los kilos totales.\n");
+			if (flag == 0) {
+				pedido.isEmpty = 1; //ocupado.
+				strcpy(pedido.estadoPedido, "PENDIENTE");
+				pedido.idPedido = *idPedido;
+				(*idPedido)++;
+				printf(
+						"\n Finalizó la carga del nuevo pedido. El estado es %s con ID pedido %d\n",
+						pedido.estadoPedido, pedido.idPedido);
+			} else {
+				printf("\nError en la carga del pedido.\n");
+			}
+		}
 	}
-
-	if (flag == 0) {
-		pedido.isEmpty = 1; //ocupado.
-		strcpy(pedido.estadoPedido, "PENDIENTE");
-		pedido.idPedido = *idPedido;
-		(*idPedido)++;
-		printf(
-				"\n Finalizó la carga del nuevo pedido. El estado es %s con ID pedido %d\n",
-				pedido.estadoPedido, pedido.idPedido);
-	} else {
-		printf("\nError en la carga del pedido.\n");
-	}
-
 	return pedido;
 }
 
@@ -189,9 +190,9 @@ int altaPlasticos(ePedido lista[], int len, int idPedido, int idCliente) {
 	//buscar entre los pendientes
 	i = findPedidosPorIdRetornarIndice(lista, len, idPedido);
 	if (lista != NULL && len > 0 && i != -1) {
-			//idCliente = lista[i].idCliente;
-			lista[i] = addTiposPlasticos(lista, len, idPedido);
-			retorno = 0;
+		//idCliente = lista[i].idCliente;
+		lista[i] = addTiposPlasticos(lista, len, idPedido);
+		retorno = 0;
 	}
 	printf("%d", retorno);
 	return retorno;
@@ -264,8 +265,7 @@ int contarPedidosCompletados(ePedido lista[], int len, int idCliente,
 	return retorno;
 }
 
-int contarPedidos(ePedido lista[], int len, int idCliente,
-		int *cantPedidos) {
+int contarPedidos(ePedido lista[], int len, int idCliente, int *cantPedidos) {
 	int i;
 	int retorno;
 	retorno = -1;
@@ -328,10 +328,10 @@ int findPedidosPorIdRetornarIndice(ePedido lista[], int len, int idPedido) {
 	int retorno;
 	retorno = -1;
 	if (lista != NULL && len > 0 && idPedido > 0) {
-	for (i = 0; i < len; i++) {
-		if(lista[i].idPedido == idPedido){
-			retorno = i;
-			break;
+		for (i = 0; i < len; i++) {
+			if (lista[i].idPedido == idPedido) {
+				retorno = i;
+				break;
 			}
 		}
 	}
