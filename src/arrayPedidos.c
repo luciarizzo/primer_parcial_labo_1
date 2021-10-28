@@ -135,39 +135,67 @@ ePedido addTiposPlasticos(ePedido lista[], int len, int idPedido) {
 	float cantPP;
 	int i;
 	i = findPedidosPorIdRetornarIndice(lista, len, idPedido);
+	int flag = -1;
 	pedido = lista[i];
-
+	int auxiliarKgTotales;
 	if (lista != NULL && len > 0 && idPedido > 0) {
 
 		pedido.idPedido = idPedido;
+		auxiliarKgTotales = pedido.kilosTotalesPedido;
 
-		if(utn_getNumeroFlotante(&cantHDPE,
-				"\nIngrese los kilos de HDPE del pedido: minimo 1 y maximo 1000\n",
-				"\nError, ingrese un valor válido\n", 1, 1000, 2) == 0) {
-			pedido.cantidadHDPE = cantHDPE;
+		if (auxiliarKgTotales > 0) {
+			utn_getNumeroFlotante(&cantHDPE,
+					"\nIngrese los kilos de HDPE del pedido: minimo 1 y maximo 1000\n",
+					"\nError, ingrese un valor válido\n", 1, 1000, 2);
+			if (cantHDPE <= auxiliarKgTotales) {
+				pedido.cantidadHDPE = cantHDPE;
+				auxiliarKgTotales = auxiliarKgTotales - cantHDPE;
+				printf("Quedan %d kilos para seguir procesando.\n",
+						auxiliarKgTotales);
+				flag = 0;
+			} else {
+				printf("\nError, no se pudo ingresar los kg de HDPE.\n");
+			}
+		} else {
+			printf("\nError, no se pudo ingresar los kg de HDPE.\n");
+		}
+
+		if (auxiliarKgTotales > 0) {
+			utn_getNumeroFlotante(&cantLDPE,
+					"\nIngrese los kilos de LDPE del pedido: minimo 1 y maximo 1000\n",
+					"\nError, ingrese un valor válido\n", 1, 1000, 2);
+			if (cantLDPE <= auxiliarKgTotales) {
+				pedido.cantidadLDPE = cantLDPE;
+				auxiliarKgTotales = auxiliarKgTotales - cantLDPE;
+				printf("Quedan %d kilos para seguir procesando.\n",
+						auxiliarKgTotales);
+				flag = 0;
+			} else {
+				printf("\nError, no se pudo ingresar los kg de LDPE.\n");
+
+			}
 		} else {
 			printf("\nError, no se pudo ingresar los kg de LDPE.\n");
 		}
 
-		if (utn_getNumeroFlotante(&cantLDPE,
-				"\nIngrese los kilos de LDPE del pedido: minimo 1 y maximo 1000\n",
-				"\nError, ingrese un valor válido\n", 1, 1000, 2) == 0) {
-			pedido.cantidadLDPE = cantLDPE;
-
-		}else {
-			printf("\nError, no se pudo ingresar los kg de LDPE.\n");
-		}
-
-		if (utn_getNumeroFlotante(&cantPP,
-				"\nIngrese los kilos de PP del pedido: minimo 1 y maximo 1000\n",
-				"\nError, ingrese un valor válido\n", 1, 1000, 2) == 0) {
-			pedido.cantidadPP = cantPP;
-
+		if (auxiliarKgTotales > 0) {
+			utn_getNumeroFlotante(&cantPP,
+					"\nIngrese los kilos de PP del pedido: minimo 1 y maximo 1000\n",
+					"\nError, ingrese un valor válido\n", 1, 1000, 2);
+			if (cantPP <= auxiliarKgTotales) {
+				pedido.cantidadPP = cantPP;
+				auxiliarKgTotales = auxiliarKgTotales - cantPP;
+				printf("Quedan %d kilos para seguir procesando.\n",
+						auxiliarKgTotales);
+				flag = 0;
+			} else {
+				printf("\nError, no se pudo ingresar los kg de PP.\n");
+			}
 		} else {
-			printf("\nError, no se pudo ingresar los kg de LDPE.\n");
+			printf("\nError, no se pudo ingresar los kg de PP.\n");
 		}
 
-		if (cantHDPE > 0 && cantLDPE > 0 && cantPP > 0) {
+		if (flag == 0) {
 			pedido.isEmpty = 1; //ocupado.
 			strcpy(pedido.estadoPedido, "COMPLETADO");
 			printf("\n Finalizó la carga del nuevo pedido. El estado es %s\n",
@@ -184,7 +212,8 @@ int altaPlasticos(ePedido lista[], int len, int idPedido, int idCliente) {
 	int retorno;
 	retorno = -1;
 	i = findPedidosPorIdRetornarIndice(lista, len, idPedido);
-	if (lista != NULL && len > 0 && i != -1) {
+	if (lista != NULL && len > 0 && i != -1
+			&& strcmp(lista[i].estadoPedido, "COMPLETADO")) {
 		lista[i] = addTiposPlasticos(lista, len, idPedido);
 		retorno = 0;
 	}

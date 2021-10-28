@@ -41,7 +41,6 @@ void mostrarMenu(char *mensaje) {
 	int flagPedidoCompleto = -1;
 	initPedido(arrayPedidos, CANTPEDIDOS);
 	initLocalidad(arrayLocalidades, CANTLOCALIDADES);
-	//int indicePedido;
 
 	if (mensaje != NULL) {
 		do {
@@ -83,6 +82,7 @@ void mostrarMenu(char *mensaje) {
 
 						switch (opcionSubMenuModificar) {
 						case 1:
+							printClientes(arrayClientes, CANTCLIENTES);
 							utn_getNumero(&idCliente,
 									"\nIngrese el número del cliente que desea buscar entre 100 y 200\n",
 									"\nError, ingrese un ID válido, debe ser entre 100 y 200\n",
@@ -90,6 +90,7 @@ void mostrarMenu(char *mensaje) {
 							modifiedDireccion(arrayClientes, CANTCLIENTES, idCliente);
 							break;
 						case 2:
+							printClientes(arrayClientes, CANTCLIENTES);
 							utn_getNumero(&idCliente,
 									"\nIngrese el número del cliente que desea buscar entre 100 y 200\n",
 									"\nError, ingrese un ID válido, debe ser entre 100 y 200\n",
@@ -141,13 +142,12 @@ void mostrarMenu(char *mensaje) {
 						//buscarId
 						idPedidoABuscar = findPedidoById(arrayPedidos,
 						CANTPEDIDOS, &idCliente);
-						//indicePedido = findPedidosPorIdRetornarIndice(arrayPedidos, CANTPEDIDOS, idPedidoABuscar);
 						//ingresar kg de cada plastico y pasa a completado
 						if (altaPlasticos(arrayPedidos, CANTPEDIDOS,
 								idPedidoABuscar, idCliente) != -1) {
 							flagPedidoCompleto = 0;
 							printf(
-									"Se cargaron los kg de plasticos correctamente");
+									"\nSe cargaron los kg de plasticos correctamente\n");
 						} else {
 							printf(
 									"\nHubo un error en la carga de tipos de plasticos.\n");

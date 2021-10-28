@@ -200,30 +200,27 @@ int getInt(int *pResultado) {
 	return retorno;
 }
 
-int getFloat(float* pResultado)
-{
+int getFloat(float *pResultado) {
 	int retorno = -1;
 	char buffer[64];
-	if(pResultado!=NULL)
-	{
-		if(myGets(buffer, sizeof(buffer))==0 && esFlotante(buffer, sizeof(buffer))==1)
-		{
-			*pResultado=atof(buffer);
-			retorno=0;
+	if (pResultado != NULL) {
+		if (myGets(buffer, sizeof(buffer)) == 0
+				&& esFlotante(buffer, sizeof(buffer)) == 1) {
+			*pResultado = atof(buffer);
+			retorno = 0;
 		}
 	}
 	return retorno;
 }
-int getNombre(char* pResultado, int longitud)
-{
-	int retorno=-1;
+int getNombre(char *pResultado, int longitud) {
+	int retorno = -1;
 	char buffer[5000];
-	if(pResultado!=NULL && longitud>0)
-	{
-		if(myGets(buffer, sizeof(buffer))==0 && esNombre(buffer, sizeof(buffer))!=0 && strnlen(buffer, sizeof(buffer))<=longitud)
-		{
+	if (pResultado != NULL && longitud > 0) {
+		if (myGets(buffer, sizeof(buffer)) == 0
+				&& esNombre(buffer, sizeof(buffer)) != 0
+				&& strnlen(buffer, sizeof(buffer)) <= longitud) {
 			strncpy(pResultado, buffer, longitud);
-			retorno=0;
+			retorno = 0;
 		}
 	}
 	return retorno;
@@ -648,47 +645,41 @@ int utn_getCaracterSexo(char *pResultado, char *mensaje, char *mensajeError,
 	}
 	return retorno;
 }
-int utn_getCaracterSiNo(void)
-{
+int utn_getCaracterSiNo(void) {
 	int retorno = -1;
 	char c;
 
 	getChar("\nIngrese Si 's' o No 'n'", &c);
 	fflush(stdin);
 
-	while(c!='s' && c!='n')
-	{
+	while (c != 's' && c != 'n') {
 		puts("ERROR. OPCION NO VALIDA");
 		getChar("Ingrese Si 's' o No 'n'", &c);
 		fflush(stdin);
 
 	}
-		if(c=='s')
-		{
-			retorno = 0;
-		}
+	if (c == 's') {
+		retorno = 0;
+	}
 	return retorno;
 }
 
-int utn_getCaracterSiNoAgregar(void)
-{
+int utn_getCaracterSiNoAgregar(void) {
 	int retorno = -1;
 	char c;
 
 	getChar("\n¿Quiere agregar otro? Ingrese Si 's' o No 'n'", &c);
 	fflush(stdin);
 
-	while(c!='s' && c!='n')
-	{
+	while (c != 's' && c != 'n') {
 		puts("ERROR. OPCION NO VALIDA");
 		getChar("Ingrese Si 's' o No 'n'", &c);
 		fflush(stdin);
 
 	}
-		if(c=='s')
-		{
-			retorno = 0;
-		}
+	if (c == 's') {
+		retorno = 0;
+	}
 	return retorno;
 }
 int utn_getString(char aux[], char *mensaje, char *mensajeError, int reintentos) {
@@ -757,40 +748,63 @@ int utn_getTelefono(char *pResultado, char *mensaje, char *mensajeError,
 	}
 	return retorno;
 }
+/*
+ int esCUIT(char *cadena) // es lo que hay
+ {
+ int retorno = 1;
+ int i;
+ char buffer[14];
+ int contadorDigito;
+ int contadorGuion;
+ strncpy(buffer, cadena, 14);
 
-int esCUIT(char *cadena) // es lo que hay
-{
-	int retorno = 1;
+ for (i = 0; buffer[i] != '\0'; i++) {
+ if ((buffer[i] < '0' || buffer[i] > '9') && (buffer[i] != '-')) {
+ retorno = 0;
+ break;
+ } else {
+ if (isdigit(cadena[i]) != 0) {
+ contadorDigito++;
+ } else {
+ if (cadena[i] == '-') {
+ contadorGuion++;
+ } else {
+ retorno = 0;
+ break;
+ }
+ }
+ }
+ }
+ if (contadorDigito == 11 && contadorGuion == 2 && buffer[2] == '-'
+ && buffer[11] == '-') {
+ retorno = 1;
+ }
+ return retorno;
+ }*/
+
+int esCUIT(char *cadena) {
 	int i;
-	char buffer[14];
-	int contadorDigito;
-	int contadorGuion;
-	strncpy(buffer, cadena, 14);
+	int retorno;
+	i = 0;
+	retorno = 0;
 
-	for (i = 0; buffer[i] != '\0'; i++) {
-		if ((buffer[i] < '0' || buffer[i] > '9') && (buffer[i] != '-')) {
-			retorno = 0;
-			break;
-		} else {
-			if (isdigit(cadena[i]) != 0) {
-				contadorDigito++;
-			} else {
-				if (cadena[i] == '-') {
-					contadorGuion++;
-				} else {
-					retorno = 0;
-					break;
+	if (cadena != NULL && strlen(cadena) == 13) {
+		while (cadena[i] != '\0') {
+			if ((cadena[i] < '0' || cadena[i] > '9')) {
+				if ((i == 2 || i == 11) && cadena[i] == '-') {
+					i++;
+					continue;
 				}
+				return retorno;
 			}
+			i++;
 		}
-	}
-	if (contadorDigito == 11 && contadorGuion == 2 && buffer[2] == '-'
-			&& buffer[11] == '-') {
-		retorno = 1;
+		if (i == strlen(cadena)) {
+			retorno = 1;
+		}
 	}
 	return retorno;
 }
-
 
 int utn_getCUIT(char *pResultado, char *mensaje, char *mensajeError,
 		int reintentos) {
@@ -870,9 +884,6 @@ int utn_getDNI(char *pResultado, char *mensaje, char *mensajeError,
 	}
 	return retorno;
 }
-
-
-
 
 /*
  utn_getNumero

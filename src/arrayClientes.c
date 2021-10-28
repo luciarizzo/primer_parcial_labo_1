@@ -61,32 +61,21 @@ eClientes addCliente(eClientes listaClientes[], int lenClientes, int id) {
 	int idLocalidad;
 	char cuit[20];
 	eClientes cliente;
-	/*el ID es incremental. BORRAR ESTO.
-	 do{
-	 utn_getNumero(&id, "\nIngrese el número de ID del empleado\n",
-	 "\nIngrese un ID válido, debe ser entre 1 y 1000\n", 1, 1000,
-	 2);
-	 }while(BuscarId(lista, len, id) != -1);
-	 */
 	if (listaClientes != NULL && lenClientes > 0) {
-		utn_getString(nombreEmpresa,
+
+		utn_getNombre(nombreEmpresa,
 				"\nIngrese el nombre de la Empresa del cliente\n",
-				"\nError, ingrese un nombre válido\n", 2);
+				"\nError, ingrese un nombre válido\n", 2, 100);
 		strcpy(cliente.nombreCliente, nombreEmpresa);
 
-		utn_getString(direccion, "\nIngrese la dirección del cliente\n",
-				"\nError, ingrese una dirección válida\n", 2);
+		utn_getNombre(direccion, "\nIngrese la dirección del cliente\n",
+				"\nError, ingrese una dirección válida\n", 2,100);
 		strcpy(cliente.direccionCliente, direccion);
 
-		/*utn_getString(localidad, "\n Ingrese la localidad del cliente\n",
-				"\nError, ingrese una localidad válida\n", 2);
-		strcpy(cliente.localidadCliente, localidad);*/
-
-		utn_getNumero(&idLocalidad, "\nIngrese el numero de ID de la localidad correspondiente\n", "\nError, ingrese el ID nuevamente\n",
-				1, 5, 2);
+		utn_getNumero(&idLocalidad, "\nIngrese el numero de ID de la localidad correspondiente (1-Lanus | 2-Temperley)\n", "\nError, ingrese el ID nuevamente\n",
+				1, 2, 2);
 		cliente.idLocalidad = idLocalidad;
 
-		//usar funcion de getCuit.
 		utn_getCUIT(cuit, "\nIngrese el número de cuit del cliente\n",
 				"\nError, ingrese un número de cuit del cliente\n", 2);
 		strcpy(cliente.cuitCliente, cuit);
@@ -164,9 +153,9 @@ int modifiedDireccion(eClientes lista[], int len, int idCliente) {
 				printf(
 						"\nEstá a punto de modificar la direccion del cliente con nombre %s\n",
 						lista[i].nombreCliente);
-				utn_getString(direccion,
+				utn_getNombre(direccion,
 						"\n Ingrese la nueva direccion del cliente\n",
-						"\nError, ingrese una direccion válida\n", 2);
+						"\nError, ingrese una direccion válida\n", 2, 100);
 				strcpy(lista[i].direccionCliente, direccion);
 				printf(
 						"\nLa dirección se ha modificado correctamente por: %s\n",
@@ -214,7 +203,7 @@ void print1Cliente(eClientes unCliente) {
 			unCliente.nombreCliente, unCliente.direccionCliente,
 			unCliente.idLocalidad, unCliente.cuitCliente);
 	printf(
-			"\n________________________________________________________________________\n");
+			"\n___________________________________________________________________________\n");
 }
 
 int printClientes(eClientes lista[], int len) {
@@ -222,11 +211,11 @@ int printClientes(eClientes lista[], int len) {
 	int i;
 
 	printf(
-			"\n____________________________________________________________________\n");
+			"\n__________________________________________________________________________\n");
 	printf(
-			"ID\t  Nombre     Empresa\t     Direccion\t   ID Localidad\t    CUIT\n");
+			"ID\t 	Nombre Empresa\t     Direccion\t  		 ID Localidad\t 	  CUIT\n");
 	printf(
-			"\n____________________________________________________________________\n");
+			"\n___________________________________________________________________________\n");
 
 	if (lista != NULL && len > 0) {
 		for (i = 0; i < len; i++) {
