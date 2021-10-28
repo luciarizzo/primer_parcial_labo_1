@@ -65,8 +65,8 @@ ePedido addPedido(ePedido lista[], int len, int idCliente, int *idPedido) {
 		pedido.idCliente = idCliente;
 		if (lista != NULL && len > 0) {
 			if (utn_getNumeroFlotante(&kilosTotales,
-					"\nIngrese los kilos totales de plástico del pedido\n",
-					"\nError, ingrese un valor válido\n", 1, 1000, 2) == 0) {
+					"\nIngrese los kilos totales de plástico del pedido: minimo 1 maximo 3000\n",
+					"\nError, ingrese un valor válido\n", 1, 3000, 2) == 0) {
 				pedido.kilosTotalesPedido = kilosTotales;
 				pedido.cantidadHDPE = 0;
 				pedido.cantidadLDPE = 0;
@@ -139,30 +139,27 @@ ePedido addTiposPlasticos(ePedido lista[], int len, int idPedido) {
 
 	if (lista != NULL && len > 0 && idPedido > 0) {
 
-		printf("Entro al primer if de addplasticos");
-
 		pedido.idPedido = idPedido;
 
-		if (utn_getNumeroFlotante(&cantHDPE,
-				"\nIngrese los kilos de HDPE del pedido\n",
+		if(utn_getNumeroFlotante(&cantHDPE,
+				"\nIngrese los kilos de HDPE del pedido: minimo 1 y maximo 1000\n",
 				"\nError, ingrese un valor válido\n", 1, 1000, 2) == 0) {
 			pedido.cantidadHDPE = cantHDPE;
-
-		} else {
-			printf("\nError, no se pudo ingresar los kg de HDPE.\n");
-		}
-
-		if (utn_getNumeroFlotante(&cantLDPE,
-				"\nIngrese los kilos de LDPE del pedido\n",
-				"\nError, ingrese un valor válido\n", 1, 1000, 2) == 0) {
-			pedido.cantidadLDPE = cantLDPE;
-
 		} else {
 			printf("\nError, no se pudo ingresar los kg de LDPE.\n");
 		}
 
+		if (utn_getNumeroFlotante(&cantLDPE,
+				"\nIngrese los kilos de LDPE del pedido: minimo 1 y maximo 1000\n",
+				"\nError, ingrese un valor válido\n", 1, 1000, 2) == 0) {
+			pedido.cantidadLDPE = cantLDPE;
+
+		}else {
+			printf("\nError, no se pudo ingresar los kg de LDPE.\n");
+		}
+
 		if (utn_getNumeroFlotante(&cantPP,
-				"\nIngrese los kilos de PP del pedido\n",
+				"\nIngrese los kilos de PP del pedido: minimo 1 y maximo 1000\n",
 				"\nError, ingrese un valor válido\n", 1, 1000, 2) == 0) {
 			pedido.cantidadPP = cantPP;
 
@@ -186,11 +183,8 @@ int altaPlasticos(ePedido lista[], int len, int idPedido, int idCliente) {
 	int i;
 	int retorno;
 	retorno = -1;
-	//i = BuscarPrimerEspacioLibrePedidos(lista, len);
-	//buscar entre los pendientes
 	i = findPedidosPorIdRetornarIndice(lista, len, idPedido);
 	if (lista != NULL && len > 0 && i != -1) {
-		//idCliente = lista[i].idCliente;
 		lista[i] = addTiposPlasticos(lista, len, idPedido);
 		retorno = 0;
 	}
@@ -316,7 +310,7 @@ int contarPlasticoTipoPP(ePedido lista[], int len, int *cantPP) {
 			}
 		}
 		*cantPP = acumuladorKgPP;
-		printf("La kg de plastico PP es: %d ", acumuladorKgPP);
+		printf("\nLa kg de plastico PP es: %d ", acumuladorKgPP);
 	} else {
 		printf("\nNo se pudo contar el plastico PP.");
 	}
